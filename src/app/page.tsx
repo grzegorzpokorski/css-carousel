@@ -1,17 +1,26 @@
 "use client";
 
 import { Inter } from "next/font/google";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [c, setC] = useState<number | null>(null);
+  const sliderRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    const x = document.getElementById(`slide-${c}`);
+    sliderRef.current?.scrollTo(x?.offsetLeft || 0, 0);
+  }, [c]);
 
   return (
     <main className="w-full max-w-6xl mx-auto px-3">
       <div className="w-full">
-        <ul className="overflow-hidden flex flex-row gap-6 scroll-smooth snap-mandatory snap-x">
+        <ul
+          className="overflow-hidden flex flex-row gap-6 scroll-smooth snap-mandatory snap-x"
+          ref={sliderRef}
+        >
           <li
             className="min-w-[calc(100%*4/5)] bg-blue-100 h-64 snap-start ml-[100%]"
             id="slide-1"
@@ -43,22 +52,20 @@ export default function Home() {
             5
           </li>
         </ul>
-        <a
-          href={`#slide-${c || 5}`}
+        <button
           onClick={() =>
             setC((prev) => (prev === null ? 5 : prev === 1 ? 5 : prev - 1))
           }
         >
           prev
-        </a>
-        <a
-          href={`#slide-${c || 2}`}
+        </button>
+        <button
           onClick={() =>
             setC((prev) => (prev == null ? 2 : prev === 5 ? 1 : prev + 1))
           }
         >
           next
-        </a>
+        </button>
       </div>
     </main>
   );
