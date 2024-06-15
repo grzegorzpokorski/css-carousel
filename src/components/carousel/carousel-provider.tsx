@@ -14,7 +14,7 @@ interface CarouselContextValue {
   scrollToThePreviousSlide: () => void;
   scrollToTheNextSlide: () => void;
   setSlide: (v: number) => void;
-  sliderRef: RefObject<HTMLUListElement>;
+  carouselRef: RefObject<HTMLUListElement>;
   currentSlideIndex: number;
   handleTouchStart: (e: TouchEvent) => void;
   handleTouchMove: (e: TouchEvent) => void;
@@ -35,23 +35,23 @@ export const CarouselProvider = ({
   children: ReactNode;
   loop: boolean;
 }) => {
-  const sliderRef = useRef<HTMLUListElement>(null);
+  const carouselRef = useRef<HTMLUListElement>(null);
   const [slides, setSlides] = useState<HTMLLIElement[] | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const isLastSlide = slides ? slides.length - 1 === currentSlideIndex : false;
   const isFirstSlide = slides ? currentSlideIndex === 0 : false;
 
   useEffect(() => {
-    if (sliderRef.current) {
+    if (carouselRef.current) {
       setSlides(
-        Array.from(sliderRef.current.querySelectorAll('[data-role="slide"]')),
+        Array.from(carouselRef.current.querySelectorAll('[data-role="slide"]')),
       );
     }
   }, []);
 
   useEffect(() => {
-    if (sliderRef.current && slides) {
-      sliderRef.current.scrollTo(slides[currentSlideIndex].offsetLeft, 0);
+    if (carouselRef.current && slides) {
+      carouselRef.current.scrollTo(slides[currentSlideIndex].offsetLeft, 0);
       slides.map((slide, idx) => {
         slide.setAttribute("aria-label", `slajd ${idx + 1} z ${slides.length}`);
         if (slide !== slides[currentSlideIndex]) {
@@ -139,7 +139,7 @@ export const CarouselProvider = ({
         scrollToThePreviousSlide,
         scrollToTheNextSlide,
         setSlide,
-        sliderRef,
+        carouselRef,
         currentSlideIndex,
         handleTouchStart,
         handleTouchMove,

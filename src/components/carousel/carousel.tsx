@@ -29,7 +29,7 @@ export const Carousel = ({
 
 export const CarouselTrack = ({ children }: { children: ReactNode }) => {
   const {
-    sliderRef,
+    carouselRef,
     handleTouchStart,
     handleTouchMove,
     handleDragEnd,
@@ -40,7 +40,7 @@ export const CarouselTrack = ({ children }: { children: ReactNode }) => {
   return (
     <ul
       className="overflow-hidden flex flex-row gap-6 motion-safe:scroll-smooth snap-mandatory snap-x"
-      ref={sliderRef}
+      ref={carouselRef}
       aria-live="polite"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
