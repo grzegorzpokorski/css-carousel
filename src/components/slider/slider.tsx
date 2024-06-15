@@ -14,6 +14,11 @@ export const Slider = ({
     setSlide,
     sliderRef,
     currentSlide,
+    handleTouchStart,
+    handleTouchMove,
+    handleDragEnd,
+    handleMouseDown,
+    handleMouseMove,
   } = useSlider();
 
   return (
@@ -21,6 +26,12 @@ export const Slider = ({
       <ul
         className="overflow-hidden flex flex-row gap-6 scroll-smooth snap-mandatory snap-x"
         ref={sliderRef}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleDragEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleDragEnd}
       >
         {slides.map((slide) => (
           <li

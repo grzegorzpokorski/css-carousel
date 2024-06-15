@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  MouseEvent,
+  TouchEvent,
+} from "react";
 
 export const useSlider = () => {
   const sliderRef = useRef<HTMLUListElement>(null);
@@ -21,7 +28,7 @@ export const useSlider = () => {
     }
   }, [currentSlide, slides]);
 
-  const scrollToThePreviousSlide = () => {
+  const scrollToThePreviousSlide = useCallback(() => {
     if (slides !== undefined) {
       setCurrentSlide((prev) =>
         prev === null
@@ -31,17 +38,66 @@ export const useSlider = () => {
           : prev - 1,
       );
     }
-  };
+  }, [slides]);
 
-  const scrollToTheNextSlide = () => {
+  const scrollToTheNextSlide = useCallback(() => {
     if (slides !== undefined) {
       setCurrentSlide((prev) =>
         prev === null ? 1 : prev === slides.length - 1 ? 0 : prev + 1,
       );
     }
-  };
+  }, [slides]);
 
   const setSlide = (i: number) => setCurrentSlide(i);
+
+  const dragStart = useRef<{ x: number; y: number } | null>(null);
+  const dragEnd = useRef<{ x: number; y: number } | null>(null);
+  const minXSwipeDistance = 50;
+  const minYSwipeDistance = 100;
+
+  const handleTouchStart = useCallback((e: TouchEvent) => {
+    dragStart.current = null;
+    dragStart.current = {
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    };
+  }, []);
+
+  const handleMouseDown = useCallback((e: MouseEvent) => {
+    dragStart.current = null;
+    dragStart.current = {
+      x: e.clientX,
+      y: e.clientY,
+    };
+  }, []);
+
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    dragEnd.current = {
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    };
+  }, []);
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    dragEnd.current = {
+      x: e.clientX,
+      y: e.clientY,
+    };
+  }, []);
+
+  const handleDragEnd = useCallback(() => {
+    if (!dragStart.current || !dragEnd.current) return;
+
+    const xDistance = dragStart.current.x - dragEnd.current.x;
+    const isLeftSwipe = xDistance > minXSwipeDistance;
+    const isRightSwipe = xDistance < -minXSwipeDistance;
+
+    if (isLeftSwipe) scrollToTheNextSlide();
+    if (isRightSwipe) scrollToThePreviousSlide();
+
+    dragEnd.current = null;
+    dragStart.current = null;
+  }, [scrollToTheNextSlide, scrollToThePreviousSlide]);
 
   return {
     scrollToThePreviousSlide,
@@ -49,5 +105,10 @@ export const useSlider = () => {
     setSlide,
     sliderRef,
     currentSlide,
+    handleTouchStart,
+    handleTouchMove,
+    handleDragEnd,
+    handleMouseDown,
+    handleMouseMove,
   };
 };
