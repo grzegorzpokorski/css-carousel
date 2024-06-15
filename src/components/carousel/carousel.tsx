@@ -15,7 +15,7 @@ export const Carousel = ({
   return (
     <CarouselProvider loop={loop}>
       <div
-        className={cn("w-full", className)}
+        className={cn("relative w-full", className)}
         role="region"
         aria-roledescription="Karuzela"
       >
