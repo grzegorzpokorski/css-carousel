@@ -1,7 +1,29 @@
-import type { MouseEvent, TouchEvent } from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import type { MouseEvent, ReactNode, RefObject, TouchEvent } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
-export const useCarousel = () => {
+interface CarouselContextValue {
+  scrollToThePreviousSlide: () => void;
+  scrollToTheNextSlide: () => void;
+  setSlide: (v: number) => void;
+  sliderRef: RefObject<HTMLUListElement>;
+  currentSlideIndex: number;
+  handleTouchStart: (e: TouchEvent) => void;
+  handleTouchMove: (e: TouchEvent) => void;
+  handleDragEnd: () => void;
+  handleMouseDown: (e: MouseEvent) => void;
+  handleMouseMove: (e: MouseEvent) => void;
+}
+
+const CarouselContext = createContext<CarouselContextValue | null>(null);
+
+export const CarouselProvider = ({ children }: { children: ReactNode }) => {
   const sliderRef = useRef<HTMLUListElement>(null);
   const [slides, setSlides] = useState<NodeListOf<HTMLLIElement>>();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -95,7 +117,7 @@ export const useCarousel = () => {
     dragStart.current = null;
   }, [scrollToTheNextSlide, scrollToThePreviousSlide]);
 
-  return {
+  const value = {
     scrollToThePreviousSlide,
     scrollToTheNextSlide,
     setSlide,
@@ -107,4 +129,20 @@ export const useCarousel = () => {
     handleMouseDown,
     handleMouseMove,
   };
+
+  return (
+    <CarouselContext.Provider value={value}>
+      {children}
+    </CarouselContext.Provider>
+  );
+};
+
+export const useCarouselContext = () => {
+  const ctx = useContext(CarouselContext);
+
+  if (!ctx) {
+    throw new Error("CarouselContext must be used inside CarouselProvider!");
+  }
+
+  return ctx;
 };

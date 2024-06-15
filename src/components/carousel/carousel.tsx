@@ -1,6 +1,5 @@
 import { useId, type ReactNode } from "react";
-// import { FaAngleLeft } from "react-icons/fa";
-import { useCarousel } from "./useCarousel";
+import { CarouselProvider, useCarouselContext } from "./carousel-provider";
 import { cn } from "@/utils/cn";
 
 export const Carousel = ({
@@ -11,14 +10,15 @@ export const Carousel = ({
   className?: string;
 }) => {
   return (
-    <div className={cn("w-full", className)}>
-      {children}
-      {/* <div className="flex flex-row justify-center items-center py-2"> */}
-      {/* <button onClick={scrollToThePreviousSlide} className="p-2">
+    <CarouselProvider>
+      <div className={cn("w-full", className)}>
+        {children}
+        {/* <div className="flex flex-row justify-center items-center py-2">
+        <button onClick={scrollToThePreviousSlide} className="p-2">
           <FaAngleLeft />
           <span className="sr-only">poprzedni slajd</span>
-        </button> */}
-      {/* <ul className="list-none flex flex-row flex-wrap items-center justify-center">
+        </button>
+        <ul className="list-none flex flex-row flex-wrap items-center justify-center">
           {slides.map((_, i) => (
             <li key={i} className="flex flex-col items-center">
               <button className="p-2" onClick={() => setSlide(i)}>
@@ -32,13 +32,14 @@ export const Carousel = ({
               </button>
             </li>
           ))}
-        </ul> */}
-      {/* <button onClick={scrollToTheNextSlide} className="p-2">
+        </ul>
+        <button onClick={scrollToTheNextSlide} className="p-2">
           <FaAngleLeft className="rotate-180" />
           <span className="sr-only">następny slajd</span>
-        </button> */}
-      {/* </div> */}
-    </div>
+        </button>
+        </div> */}
+      </div>
+    </CarouselProvider>
   );
 };
 
@@ -50,7 +51,7 @@ export const CarouselTrack = ({ children }: { children: ReactNode }) => {
     handleDragEnd,
     handleMouseDown,
     handleMouseMove,
-  } = useCarousel();
+  } = useCarouselContext();
 
   return (
     <ul
