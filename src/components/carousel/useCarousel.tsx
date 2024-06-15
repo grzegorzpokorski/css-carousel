@@ -1,11 +1,5 @@
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  MouseEvent,
-  TouchEvent,
-} from "react";
+import type { MouseEvent, TouchEvent } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useCarousel = () => {
   const sliderRef = useRef<HTMLUListElement>(null);

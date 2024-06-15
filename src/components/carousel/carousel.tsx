@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import { useCarousel } from "./useCarousel";
