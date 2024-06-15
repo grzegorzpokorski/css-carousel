@@ -2,6 +2,9 @@
 
 import {
   Carousel,
+  CarouselNav,
+  CarouselNavNextSlideBtn,
+  CarouselNavPrevSlideBtn,
   CarouselSlide,
   CarouselTrack,
 } from "@/components/carousel/carousel";
@@ -19,6 +22,10 @@ export default function Home() {
           <CarouselSlide className={slideStyles}>I am</CarouselSlide>
           <CarouselSlide className={slideStyles}>carousel</CarouselSlide>
         </CarouselTrack>
+        <CarouselNav>
+          <CarouselNavPrevSlideBtn />
+          <CarouselNavNextSlideBtn />
+        </CarouselNav>
       </Carousel>
     </main>
   );

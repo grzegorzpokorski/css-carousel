@@ -1,4 +1,5 @@
 import { useId, type ReactNode } from "react";
+import { ChevronLeft } from "lucide-react";
 import { CarouselProvider, useCarouselContext } from "./carousel-provider";
 import { cn } from "@/utils/cn";
 
@@ -11,34 +12,7 @@ export const Carousel = ({
 }) => {
   return (
     <CarouselProvider>
-      <div className={cn("w-full", className)}>
-        {children}
-        {/* <div className="flex flex-row justify-center items-center py-2">
-        <button onClick={scrollToThePreviousSlide} className="p-2">
-          <FaAngleLeft />
-          <span className="sr-only">poprzedni slajd</span>
-        </button>
-        <ul className="list-none flex flex-row flex-wrap items-center justify-center">
-          {slides.map((_, i) => (
-            <li key={i} className="flex flex-col items-center">
-              <button className="p-2" onClick={() => setSlide(i)}>
-                <span
-                  className={twMerge(
-                    "block w-2 h-2 bg-gray-300 hover:bg-blue-500 rounded-full motion-safe:transition-all motion-safe:duration-300",
-                    currentSlide === i && "w-6 bg-blue-500",
-                  )}
-                ></span>
-                <span className="sr-only">przejdź do {i + 1} slajdu</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-        <button onClick={scrollToTheNextSlide} className="p-2">
-          <FaAngleLeft className="rotate-180" />
-          <span className="sr-only">następny slajd</span>
-        </button>
-        </div> */}
-      </div>
+      <div className={cn("w-full", className)}>{children}</div>
     </CarouselProvider>
   );
 };
@@ -85,5 +59,35 @@ export const CarouselSlide = ({
     >
       {children}
     </li>
+  );
+};
+
+export const CarouselNav = ({ children }: { children: ReactNode }) => {
+  return (
+    <div className="flex flex-row justify-center items-center py-2">
+      {children}
+    </div>
+  );
+};
+
+export const CarouselNavNextSlideBtn = () => {
+  const { scrollToTheNextSlide } = useCarouselContext();
+
+  return (
+    <button onClick={scrollToTheNextSlide} className="p-2">
+      <ChevronLeft aria-hidden="true" className="w-5 h-5 rotate-180" />
+      <span className="sr-only">następny slajd</span>
+    </button>
+  );
+};
+
+export const CarouselNavPrevSlideBtn = () => {
+  const { scrollToThePreviousSlide } = useCarouselContext();
+
+  return (
+    <button onClick={scrollToThePreviousSlide} className="p-2">
+      <ChevronLeft aria-hidden="true" className="w-5 h-5" />
+      <span className="sr-only">poprzedni slajd</span>
+    </button>
   );
 };
