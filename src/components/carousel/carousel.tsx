@@ -1,5 +1,5 @@
 import { useId, type ReactNode } from "react";
-import { FaAngleLeft } from "react-icons/fa";
+// import { FaAngleLeft } from "react-icons/fa";
 import { useCarousel } from "./useCarousel";
 import { cn } from "@/utils/cn";
 
@@ -10,37 +10,15 @@ export const Carousel = ({
   children: ReactNode;
   className?: string;
 }) => {
-  const {
-    scrollToThePreviousSlide,
-    scrollToTheNextSlide,
-    sliderRef,
-    handleTouchStart,
-    handleTouchMove,
-    handleDragEnd,
-    handleMouseDown,
-    handleMouseMove,
-  } = useCarousel();
-
   return (
     <div className={cn("w-full", className)}>
-      <ul
-        className="overflow-hidden flex flex-row gap-6 motion-safe:scroll-smooth snap-mandatory snap-x"
-        ref={sliderRef}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleDragEnd}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleDragEnd}
-      >
-        {children}
-      </ul>
-      <div className="flex flex-row justify-center items-center py-2">
-        <button onClick={scrollToThePreviousSlide} className="p-2">
+      {children}
+      {/* <div className="flex flex-row justify-center items-center py-2"> */}
+      {/* <button onClick={scrollToThePreviousSlide} className="p-2">
           <FaAngleLeft />
           <span className="sr-only">poprzedni slajd</span>
-        </button>
-        {/* <ul className="list-none flex flex-row flex-wrap items-center justify-center">
+        </button> */}
+      {/* <ul className="list-none flex flex-row flex-wrap items-center justify-center">
           {slides.map((_, i) => (
             <li key={i} className="flex flex-col items-center">
               <button className="p-2" onClick={() => setSlide(i)}>
@@ -55,12 +33,38 @@ export const Carousel = ({
             </li>
           ))}
         </ul> */}
-        <button onClick={scrollToTheNextSlide} className="p-2">
+      {/* <button onClick={scrollToTheNextSlide} className="p-2">
           <FaAngleLeft className="rotate-180" />
           <span className="sr-only">następny slajd</span>
-        </button>
-      </div>
+        </button> */}
+      {/* </div> */}
     </div>
+  );
+};
+
+export const CarouselTrack = ({ children }: { children: ReactNode }) => {
+  const {
+    sliderRef,
+    handleTouchStart,
+    handleTouchMove,
+    handleDragEnd,
+    handleMouseDown,
+    handleMouseMove,
+  } = useCarousel();
+
+  return (
+    <ul
+      className="overflow-hidden flex flex-row gap-6 motion-safe:scroll-smooth snap-mandatory snap-x"
+      ref={sliderRef}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleDragEnd}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleDragEnd}
+    >
+      {children}
+    </ul>
   );
 };
 

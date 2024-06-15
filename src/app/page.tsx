@@ -1,6 +1,10 @@
 "use client";
 
-import { Carousel, CarouselSlide } from "@/components/carousel/carousel";
+import {
+  Carousel,
+  CarouselSlide,
+  CarouselTrack,
+} from "@/components/carousel/carousel";
 
 export default function Home() {
   const slideStyles =
@@ -9,10 +13,12 @@ export default function Home() {
   return (
     <main className="container mx-auto flex flex-col p-8">
       <Carousel>
-        <CarouselSlide className={slideStyles}>Hello</CarouselSlide>
-        <CarouselSlide className={slideStyles}>world</CarouselSlide>
-        <CarouselSlide className={slideStyles}>I am</CarouselSlide>
-        <CarouselSlide className={slideStyles}>carousel</CarouselSlide>
+        <CarouselTrack>
+          <CarouselSlide className={slideStyles}>Hello</CarouselSlide>
+          <CarouselSlide className={slideStyles}>world</CarouselSlide>
+          <CarouselSlide className={slideStyles}>I am</CarouselSlide>
+          <CarouselSlide className={slideStyles}>carousel</CarouselSlide>
+        </CarouselTrack>
       </Carousel>
     </main>
   );

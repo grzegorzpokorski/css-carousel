@@ -15,6 +15,13 @@ export const useCarousel = () => {
   useEffect(() => {
     if (sliderRef.current && slides) {
       sliderRef.current.scrollTo(slides[currentSlideIndex].offsetLeft, 0);
+      Array.from(slides).map((slide) => {
+        if (slide !== slides[currentSlideIndex]) {
+          slide.setAttribute("aria-hidden", "true");
+        } else {
+          slide.setAttribute("aria-hidden", "false");
+        }
+      });
     }
   }, [currentSlideIndex, slides]);
 
