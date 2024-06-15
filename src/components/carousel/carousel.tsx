@@ -1,19 +1,19 @@
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 import { FaAngleLeft } from "react-icons/fa";
-import { twMerge } from "tailwind-merge";
 import { useCarousel } from "./useCarousel";
+import { cn } from "@/utils/cn";
 
 export const Carousel = ({
-  slides,
+  children,
+  className,
 }: {
-  slides: { content: ReactNode; id: number }[];
+  children: ReactNode;
+  className?: string;
 }) => {
   const {
     scrollToThePreviousSlide,
     scrollToTheNextSlide,
-    setSlide,
     sliderRef,
-    currentSlide,
     handleTouchStart,
     handleTouchMove,
     handleDragEnd,
@@ -22,7 +22,7 @@ export const Carousel = ({
   } = useCarousel();
 
   return (
-    <div className="w-full">
+    <div className={cn("w-full", className)}>
       <ul
         className="overflow-hidden flex flex-row gap-6 motion-safe:scroll-smooth snap-mandatory snap-x"
         ref={sliderRef}
@@ -33,22 +33,14 @@ export const Carousel = ({
         onMouseMove={handleMouseMove}
         onMouseUp={handleDragEnd}
       >
-        {slides.map((slide) => (
-          <li
-            key={slide.id}
-            className="min-w-[calc(100%)] bg-blue-500 h-64 snap-center flex flex-col items-center justify-center text-white font-bold text-2xl"
-            data-role="slide"
-          >
-            {slide.content}
-          </li>
-        ))}
+        {children}
       </ul>
       <div className="flex flex-row justify-center items-center py-2">
         <button onClick={scrollToThePreviousSlide} className="p-2">
           <FaAngleLeft />
           <span className="sr-only">poprzedni slajd</span>
         </button>
-        <ul className="list-none flex flex-row flex-wrap items-center justify-center">
+        {/* <ul className="list-none flex flex-row flex-wrap items-center justify-center">
           {slides.map((_, i) => (
             <li key={i} className="flex flex-col items-center">
               <button className="p-2" onClick={() => setSlide(i)}>
@@ -62,12 +54,31 @@ export const Carousel = ({
               </button>
             </li>
           ))}
-        </ul>
+        </ul> */}
         <button onClick={scrollToTheNextSlide} className="p-2">
           <FaAngleLeft className="rotate-180" />
           <span className="sr-only">następny slajd</span>
         </button>
       </div>
     </div>
+  );
+};
+
+export const CarouselSlide = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
+  const slideId = useId();
+  return (
+    <li
+      key={slideId}
+      className={cn("min-w-full snap-center", className)}
+      data-role="slide"
+    >
+      {children}
+    </li>
   );
 };

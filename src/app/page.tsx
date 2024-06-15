@@ -1,18 +1,19 @@
 "use client";
 
-import { Carousel } from "@/components/carousel/carousel";
+import { Carousel, CarouselSlide } from "@/components/carousel/carousel";
 
 export default function Home() {
+  const slideStyles =
+    "bg-blue-500 text-white h-64 rounded-lg text-2xl font-bold items-center justify-center flex";
+
   return (
-    <main className="w-full max-w-6xl mx-auto px-3">
-      <Carousel
-        slides={[
-          { id: 0, content: <>0</> },
-          { id: 1, content: <>1</> },
-          { id: 2, content: <>2</> },
-          { id: 3, content: <>3</> },
-        ]}
-      />
+    <main className="container mx-auto flex flex-col p-8">
+      <Carousel>
+        <CarouselSlide className={slideStyles}>Hello</CarouselSlide>
+        <CarouselSlide className={slideStyles}>world</CarouselSlide>
+        <CarouselSlide className={slideStyles}>I am</CarouselSlide>
+        <CarouselSlide className={slideStyles}>carousel</CarouselSlide>
+      </Carousel>
     </main>
   );
 }

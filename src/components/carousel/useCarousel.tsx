@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export const useCarousel = () => {
   const sliderRef = useRef<HTMLUListElement>(null);
   const [slides, setSlides] = useState<NodeListOf<HTMLLIElement>>();
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   useEffect(() => {
     if (sliderRef.current) {
@@ -14,31 +14,31 @@ export const useCarousel = () => {
 
   useEffect(() => {
     if (sliderRef.current && slides) {
-      sliderRef.current.scrollTo(slides[currentSlide].offsetLeft, 0);
+      sliderRef.current.scrollTo(slides[currentSlideIndex].offsetLeft, 0);
     }
-  }, [currentSlide, slides]);
+  }, [currentSlideIndex, slides]);
 
   const scrollToThePreviousSlide = useCallback(() => {
     if (slides) {
-      setCurrentSlide((prev) =>
-        prev === null
-          ? slides.length - 1
-          : prev === 0
-            ? slides.length - 1
-            : prev - 1,
-      );
+      setCurrentSlideIndex((prev) => (!prev ? slides.length - 1 : prev - 1));
     }
   }, [slides]);
 
   const scrollToTheNextSlide = useCallback(() => {
     if (slides) {
-      setCurrentSlide((prev) =>
-        prev === null ? 1 : prev === slides.length - 1 ? 0 : prev + 1,
-      );
+      setCurrentSlideIndex((prev) => {
+        if (!prev) {
+          return 1;
+        }
+        if (prev === slides.length - 1) {
+          return 0;
+        }
+        return prev + 1;
+      });
     }
   }, [slides]);
 
-  const setSlide = (i: number) => setCurrentSlide(i);
+  const setSlide = (i: number) => setCurrentSlideIndex(i);
 
   const dragStart = useRef<{ x: number; y: number } | null>(null);
   const dragEnd = useRef<{ x: number; y: number } | null>(null);
@@ -93,7 +93,7 @@ export const useCarousel = () => {
     scrollToTheNextSlide,
     setSlide,
     sliderRef,
-    currentSlide,
+    currentSlideIndex,
     handleTouchStart,
     handleTouchMove,
     handleDragEnd,
