@@ -1,9 +1,9 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
-import { useSlider } from "./useSlider";
+import { useCarousel } from "./useCarousel";
 
-export const Slider = ({
+export const Carousel = ({
   slides,
 }: {
   slides: { content: ReactNode; id: number }[];
@@ -19,12 +19,12 @@ export const Slider = ({
     handleDragEnd,
     handleMouseDown,
     handleMouseMove,
-  } = useSlider();
+  } = useCarousel();
 
   return (
     <div className="w-full">
       <ul
-        className="overflow-hidden flex flex-row gap-6 scroll-smooth snap-mandatory snap-x"
+        className="overflow-hidden flex flex-row gap-6 motion-safe:scroll-smooth snap-mandatory snap-x"
         ref={sliderRef}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -54,7 +54,7 @@ export const Slider = ({
               <button className="p-2" onClick={() => setSlide(i)}>
                 <span
                   className={twMerge(
-                    "block w-2 h-2 bg-gray-300 hover:bg-blue-500 rounded-full transition-all duration-300",
+                    "block w-2 h-2 bg-gray-300 hover:bg-blue-500 rounded-full motion-safe:transition-all motion-safe:duration-300",
                     currentSlide === i && "w-6 bg-blue-500",
                   )}
                 ></span>

@@ -7,7 +7,7 @@ import {
   TouchEvent,
 } from "react";
 
-export const useSlider = () => {
+export const useCarousel = () => {
   const sliderRef = useRef<HTMLUListElement>(null);
   const [slides, setSlides] = useState<NodeListOf<HTMLLIElement>>();
   const [currentSlide, setCurrentSlide] = useState(0);

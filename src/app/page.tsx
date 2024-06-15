@@ -1,11 +1,11 @@
 "use client";
 
-import { Slider } from "@/components/slider/slider";
+import { Carousel } from "@/components/carousel/carousel";
 
 export default function Home() {
   return (
     <main className="w-full max-w-6xl mx-auto px-3">
-      <Slider
+      <Carousel
         slides={[
           { id: 0, content: <>0</> },
           { id: 1, content: <>1</> },
