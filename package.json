@@ -1,12 +1,18 @@
 {
   "name": "css-carousel",
   "version": "0.1.0",
+  "author": {
+    "name": "Grzegorz Pokorski",
+    "email": "mr.pokorski@gmail.com"
+  },
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky"
   },
   "dependencies": {
     "@types/node": "20.14.2",
@@ -23,6 +29,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
+    "husky": "9.0.11",
+    "lint-staged": "15.2.7",
     "postcss": "^8.4.21",
     "prettier": "3.3.2",
     "tailwindcss": "3.4.4"
