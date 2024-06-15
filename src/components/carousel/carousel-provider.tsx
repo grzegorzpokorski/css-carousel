@@ -19,25 +19,39 @@ interface CarouselContextValue {
   handleDragEnd: () => void;
   handleMouseDown: (e: MouseEvent) => void;
   handleMouseMove: (e: MouseEvent) => void;
+  isFirstSlide: boolean;
+  isLastSlide: boolean;
+  loop: boolean;
 }
 
 const CarouselContext = createContext<CarouselContextValue | null>(null);
 
-export const CarouselProvider = ({ children }: { children: ReactNode }) => {
+export const CarouselProvider = ({
+  children,
+  loop,
+}: {
+  children: ReactNode;
+  loop: boolean;
+}) => {
   const sliderRef = useRef<HTMLUListElement>(null);
-  const [slides, setSlides] = useState<NodeListOf<HTMLLIElement>>();
+  const [slides, setSlides] = useState<HTMLLIElement[] | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const isLastSlide = slides ? slides.length - 1 === currentSlideIndex : false;
+  const isFirstSlide = slides ? currentSlideIndex === 0 : false;
 
   useEffect(() => {
     if (sliderRef.current) {
-      setSlides(sliderRef.current.querySelectorAll('[data-role="slide"]'));
+      setSlides(
+        Array.from(sliderRef.current.querySelectorAll('[data-role="slide"]')),
+      );
     }
   }, []);
 
   useEffect(() => {
     if (sliderRef.current && slides) {
       sliderRef.current.scrollTo(slides[currentSlideIndex].offsetLeft, 0);
-      Array.from(slides).map((slide) => {
+      slides.map((slide, idx) => {
+        slide.setAttribute("aria-label", `slajd ${idx + 1} z ${slides.length}`);
         if (slide !== slides[currentSlideIndex]) {
           slide.setAttribute("aria-hidden", "true");
         } else {
@@ -117,21 +131,24 @@ export const CarouselProvider = ({ children }: { children: ReactNode }) => {
     dragStart.current = null;
   }, [scrollToTheNextSlide, scrollToThePreviousSlide]);
 
-  const value = {
-    scrollToThePreviousSlide,
-    scrollToTheNextSlide,
-    setSlide,
-    sliderRef,
-    currentSlideIndex,
-    handleTouchStart,
-    handleTouchMove,
-    handleDragEnd,
-    handleMouseDown,
-    handleMouseMove,
-  };
-
   return (
-    <CarouselContext.Provider value={value}>
+    <CarouselContext.Provider
+      value={{
+        scrollToThePreviousSlide,
+        scrollToTheNextSlide,
+        setSlide,
+        sliderRef,
+        currentSlideIndex,
+        handleTouchStart,
+        handleTouchMove,
+        handleDragEnd,
+        handleMouseDown,
+        handleMouseMove,
+        isFirstSlide,
+        isLastSlide,
+        loop,
+      }}
+    >
       {children}
     </CarouselContext.Provider>
   );

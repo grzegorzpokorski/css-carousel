@@ -6,13 +6,17 @@ import { cn } from "@/utils/cn";
 export const Carousel = ({
   children,
   className,
+  loop = true,
 }: {
   children: ReactNode;
   className?: string;
+  loop: boolean;
 }) => {
   return (
-    <CarouselProvider>
-      <div className={cn("w-full", className)}>{children}</div>
+    <CarouselProvider loop={loop}>
+      <div className={cn("w-full", className)} aria-roledescription="carousel">
+        {children}
+      </div>
     </CarouselProvider>
   );
 };
@@ -56,6 +60,7 @@ export const CarouselSlide = ({
       key={slideId}
       className={cn("min-w-full snap-center", className)}
       data-role="slide"
+      aria-roledescription="slide"
     >
       {children}
     </li>
@@ -71,10 +76,15 @@ export const CarouselNav = ({ children }: { children: ReactNode }) => {
 };
 
 export const CarouselNavNextSlideBtn = () => {
-  const { scrollToTheNextSlide } = useCarouselContext();
+  const { scrollToTheNextSlide, isLastSlide, loop } = useCarouselContext();
+  const isDisabled = isLastSlide && !loop;
 
   return (
-    <button onClick={scrollToTheNextSlide} className="p-2">
+    <button
+      onClick={scrollToTheNextSlide}
+      className="p-2 text-neutral-800 hover:text-neutral-500 focus-visible:text-neutral-500 aria-[disabled=true]:opacity-50 transition-colors"
+      aria-disabled={isDisabled}
+    >
       <ChevronLeft aria-hidden="true" className="w-5 h-5 rotate-180" />
       <span className="sr-only">następny slajd</span>
     </button>
@@ -82,10 +92,15 @@ export const CarouselNavNextSlideBtn = () => {
 };
 
 export const CarouselNavPrevSlideBtn = () => {
-  const { scrollToThePreviousSlide } = useCarouselContext();
+  const { scrollToThePreviousSlide, isFirstSlide, loop } = useCarouselContext();
+  const isDisabled = isFirstSlide && !loop;
 
   return (
-    <button onClick={scrollToThePreviousSlide} className="p-2">
+    <button
+      onClick={scrollToThePreviousSlide}
+      className="p-2 text-neutral-800 hover:text-neutral-500 focus-visible:text-neutral-500 aria-[disabled=true]:opacity-50 transition-colors"
+      aria-disabled={isDisabled}
+    >
       <ChevronLeft aria-hidden="true" className="w-5 h-5" />
       <span className="sr-only">poprzedni slajd</span>
     </button>
