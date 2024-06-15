@@ -1,3 +1,5 @@
+"use client";
+
 import { useId, type ReactNode } from "react";
 import { ChevronLeft } from "lucide-react";
 import { CarouselProvider, useCarouselContext } from "./carousel-provider";
