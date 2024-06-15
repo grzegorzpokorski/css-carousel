@@ -14,7 +14,11 @@ export const Carousel = ({
 }) => {
   return (
     <CarouselProvider loop={loop}>
-      <div className={cn("w-full", className)} aria-roledescription="carousel">
+      <div
+        className={cn("w-full", className)}
+        role="region"
+        aria-roledescription="Karuzela"
+      >
         {children}
       </div>
     </CarouselProvider>
@@ -35,6 +39,7 @@ export const CarouselTrack = ({ children }: { children: ReactNode }) => {
     <ul
       className="overflow-hidden flex flex-row gap-6 motion-safe:scroll-smooth snap-mandatory snap-x"
       ref={sliderRef}
+      aria-live="polite"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleDragEnd}
@@ -60,7 +65,7 @@ export const CarouselSlide = ({
       key={slideId}
       className={cn("min-w-full snap-center", className)}
       data-role="slide"
-      aria-roledescription="slide"
+      aria-roledescription="Slajd"
     >
       {children}
     </li>
@@ -69,7 +74,10 @@ export const CarouselSlide = ({
 
 export const CarouselNav = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex flex-row justify-center items-center py-2">
+    <div
+      className="flex flex-row justify-center items-center py-2"
+      aria-label="Nawigacja karuzeli"
+    >
       {children}
     </div>
   );
@@ -85,7 +93,7 @@ export const CarouselNavNextSlideBtn = () => {
       className="p-2 text-neutral-800 hover:text-neutral-500 focus-visible:text-neutral-500 aria-[disabled=true]:opacity-50 transition-colors"
       aria-disabled={isDisabled}
     >
-      <ChevronLeft aria-hidden="true" className="w-5 h-5 rotate-180" />
+      <ChevronLeft aria-hidden="true" className="w-6 h-6 rotate-180" />
       <span className="sr-only">następny slajd</span>
     </button>
   );
@@ -101,7 +109,7 @@ export const CarouselNavPrevSlideBtn = () => {
       className="p-2 text-neutral-800 hover:text-neutral-500 focus-visible:text-neutral-500 aria-[disabled=true]:opacity-50 transition-colors"
       aria-disabled={isDisabled}
     >
-      <ChevronLeft aria-hidden="true" className="w-5 h-5" />
+      <ChevronLeft aria-hidden="true" className="w-6 h-6" />
       <span className="sr-only">poprzedni slajd</span>
     </button>
   );
