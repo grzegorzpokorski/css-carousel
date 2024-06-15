@@ -1,3 +1,5 @@
+"use client";
+
 import type { MouseEvent, ReactNode, RefObject, TouchEvent } from "react";
 import {
   createContext,
