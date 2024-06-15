@@ -13,35 +13,31 @@ export const useSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
-    if (sliderRef.current !== null) {
+    if (sliderRef.current) {
       setSlides(sliderRef.current.querySelectorAll('[data-role="slide"]'));
     }
   }, []);
 
   useEffect(() => {
-    if (
-      currentSlide !== null &&
-      sliderRef.current !== null &&
-      slides !== undefined
-    ) {
+    if (sliderRef.current && slides) {
       sliderRef.current.scrollTo(slides[currentSlide].offsetLeft, 0);
     }
   }, [currentSlide, slides]);
 
   const scrollToThePreviousSlide = useCallback(() => {
-    if (slides !== undefined) {
+    if (slides) {
       setCurrentSlide((prev) =>
         prev === null
           ? slides.length - 1
           : prev === 0
-          ? slides.length - 1
-          : prev - 1,
+            ? slides.length - 1
+            : prev - 1,
       );
     }
   }, [slides]);
 
   const scrollToTheNextSlide = useCallback(() => {
-    if (slides !== undefined) {
+    if (slides) {
       setCurrentSlide((prev) =>
         prev === null ? 1 : prev === slides.length - 1 ? 0 : prev + 1,
       );
@@ -53,7 +49,6 @@ export const useSlider = () => {
   const dragStart = useRef<{ x: number; y: number } | null>(null);
   const dragEnd = useRef<{ x: number; y: number } | null>(null);
   const minXSwipeDistance = 50;
-  const minYSwipeDistance = 100;
 
   const handleTouchStart = useCallback((e: TouchEvent) => {
     dragStart.current = null;
