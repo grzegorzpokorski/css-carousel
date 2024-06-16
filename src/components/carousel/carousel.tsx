@@ -27,7 +27,13 @@ export const Carousel = ({
   );
 };
 
-export const CarouselTrack = ({ children }: { children: ReactNode }) => {
+export const CarouselTrack = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
   const {
     carouselRef,
     handleTouchStart,
@@ -39,7 +45,10 @@ export const CarouselTrack = ({ children }: { children: ReactNode }) => {
 
   return (
     <ul
-      className="overflow-hidden flex flex-row gap-6 motion-safe:scroll-smooth snap-mandatory snap-x"
+      className={cn(
+        "overflow-hidden flex flex-row gap-6 motion-safe:scroll-smooth snap-mandatory snap-x",
+        className,
+      )}
       ref={carouselRef}
       aria-live="polite"
       onTouchStart={handleTouchStart}
@@ -85,14 +94,21 @@ export const CarouselNav = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const CarouselNavNextSlideBtn = () => {
+export const CarouselNavNextSlideBtn = ({
+  className,
+}: {
+  className?: string;
+}) => {
   const { scrollToTheNextSlide, isLastSlide, loop } = useCarouselContext();
   const isDisabled = isLastSlide && !loop;
 
   return (
     <button
       onClick={scrollToTheNextSlide}
-      className="p-2 text-neutral-800 hover:text-neutral-500 focus-visible:text-neutral-500 aria-[disabled=true]:opacity-50 transition-colors"
+      className={cn(
+        "p-2 text-neutral-800 hover:text-neutral-500 focus-visible:text-neutral-500 aria-[disabled=true]:opacity-50 transition-colors",
+        className,
+      )}
       aria-disabled={isDisabled}
     >
       <ChevronLeft aria-hidden="true" className="w-6 h-6 rotate-180" />
@@ -101,14 +117,21 @@ export const CarouselNavNextSlideBtn = () => {
   );
 };
 
-export const CarouselNavPrevSlideBtn = () => {
+export const CarouselNavPrevSlideBtn = ({
+  className,
+}: {
+  className?: string;
+}) => {
   const { scrollToThePreviousSlide, isFirstSlide, loop } = useCarouselContext();
   const isDisabled = isFirstSlide && !loop;
 
   return (
     <button
       onClick={scrollToThePreviousSlide}
-      className="p-2 text-neutral-800 hover:text-neutral-500 focus-visible:text-neutral-500 aria-[disabled=true]:opacity-50 transition-colors"
+      className={cn(
+        "p-2 text-neutral-800 hover:text-neutral-500 focus-visible:text-neutral-500 aria-[disabled=true]:opacity-50 transition-colors",
+        className,
+      )}
       aria-disabled={isDisabled}
     >
       <ChevronLeft aria-hidden="true" className="w-6 h-6" />
