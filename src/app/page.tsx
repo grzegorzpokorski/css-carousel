@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <main className="container mx-auto flex flex-col p-8">
-      <Carousel loop>
+      <Carousel loop={false}>
         <CarouselTrack>
           <CarouselSlide className={slideStyles}>Hello</CarouselSlide>
           <CarouselSlide className={slideStyles}>world</CarouselSlide>

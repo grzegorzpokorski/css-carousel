@@ -65,12 +65,18 @@ export const CarouselProvider = ({
 
   const scrollToThePreviousSlide = useCallback(() => {
     if (slides) {
+      if (!loop && currentSlideIndex === 0) {
+        return;
+      }
       setCurrentSlideIndex((prev) => (!prev ? slides.length - 1 : prev - 1));
     }
-  }, [slides]);
+  }, [currentSlideIndex, loop, slides]);
 
   const scrollToTheNextSlide = useCallback(() => {
     if (slides) {
+      if (!loop && currentSlideIndex === slides.length - 1) {
+        return;
+      }
       setCurrentSlideIndex((prev) => {
         if (!prev) {
           return 1;
@@ -81,7 +87,7 @@ export const CarouselProvider = ({
         return prev + 1;
       });
     }
-  }, [slides]);
+  }, [currentSlideIndex, loop, slides]);
 
   const setSlide = (i: number) => setCurrentSlideIndex(i);
 
